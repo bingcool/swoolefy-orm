@@ -3601,8 +3601,11 @@ class Query
      * clear 在请求完成后,销毁对应协程静态变量
      * @return void
      */
-    public function destroy() {
+    public function destroy($coroutine_id = null) {
         $cid = CoroutineManager::getInstance()->getCoroutineId();
+        if(isset($coroutine_id) && $coroutine_id != $cid) {
+            $cid = $coroutine_id;
+        }
         $this->connection->freeBuilder();
         Db::$queryTimes = 0;
         Db::$executeTimes = 0;
